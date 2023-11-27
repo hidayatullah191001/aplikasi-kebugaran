@@ -27,7 +27,7 @@ class Cabor extends CI_Controller {
 	public function index(){
 		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 		$data['title'] = 'Data Cabang Olahraga';
-		$data['cabor'] = $this->db->get('cabor')->result_array();
+		$data['cabor'] = $this->db->get_where('cabor', ['id_user' => $data['user']['id']])->result_array();
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/sidebar', $data);
 		$this->load->view('cabor/index', $data);
@@ -48,6 +48,7 @@ class Cabor extends CI_Controller {
 			$this->load->view('templates/footer');
 		}else{
 			$data = [
+				'id_user' => $data['user']['id'],
 				'nama_cabor' => $this->input->post('nama'),
 			];
 

@@ -61,6 +61,7 @@
                 <br>
                 <div class="col-md-12">
                   <p>Sudah punya akun? <a href="<?=base_url('auth') ?>">Masuk disini</a></p>
+                  <a href="<?=base_url('landing') ?>">Kembali ke Halaman Utama</a>
                 </div>
               </center>
             </form>

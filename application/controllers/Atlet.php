@@ -1,10 +1,25 @@
 <?php  
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Atlet extends CI_Controller 
-{
+class Atlet extends CI_Controller {
+	
 	public function __construct()
 	{
 		parent::__construct();
+		if (!$this->session->userdata('email', 'role_id')) {
+			$data = base_url();
+			$this->session->unset_userdata('email', 'role_id');
+			$this->session->set_flashdata('message', '<div class = "alert alert-danger" role="alert">Login terlebih dahulu!</div>');
+			redirect($data);
+		}
+		$userdata = $this->session->userdata();
+		if ($userdata['role_id'] != 2) {
+			$data = base_url();
+			$this->session->unset_userdata('email', 'role_id');
+			$this->session->set_flashdata('message', '<div class = "alert alert-danger" role="alert">Login terlebih dahulu!</div>');
+			redirect($data);
+		}
+
 		$this->load->model('Atlet_model');
 		$this->load->library('form_validation');
 	}
@@ -13,7 +28,7 @@ class Atlet extends CI_Controller
 	{
 		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 		$data['title'] = 'Data Atlet';
-		$data['atlet'] = $this->Atlet_model->getAllAtlet();
+		$data['atlet'] = $this->Atlet_model->getAllAtlet($data['user']['id']);
 		if($this->input->post('keyword')){
 			$data['atlet'] = $this->Atlet_model->cariDataAtlet();
 		}
@@ -42,7 +57,7 @@ class Atlet extends CI_Controller
 		}
 		else
 		{
-			$this->Atlet_model->tambahDataAtlet();
+			$this->Atlet_model->tambahDataAtlet($data['user']['id']);
 			$this->session->set_flashdata('message', '<div class="alert alert-success text-success">
 				Berhasil ditambahkan!
 				</div>');

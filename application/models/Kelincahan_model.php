@@ -1,4 +1,6 @@
 <?php 
+defined('BASEPATH') or exit('No direct script access allowed');
+
 class Kelincahan_model extends CI_model{
 	
 	public function tambahDataKelincahan($id)

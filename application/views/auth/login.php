@@ -47,6 +47,7 @@
                 <br>
                 <div class="col-md-12">
                   <p>Belum punya akun? <a href="<?=base_url('auth/registration') ?>">Register</a></p>
+                  <a href="<?=base_url('landing') ?>">Kembali ke Halaman Utama</a>
                 </div>
               </center>
             </form>

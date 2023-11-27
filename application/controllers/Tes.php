@@ -1,10 +1,24 @@
 <?php  
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Tes extends CI_Controller 
 {
 	public function __construct()
 	{
 		parent::__construct();
+		if (!$this->session->userdata('email', 'role_id')) {
+			$data = base_url();
+			$this->session->unset_userdata('email', 'role_id');
+			$this->session->set_flashdata('message', '<div class = "alert alert-danger" role="alert">Login terlebih dahulu!</div>');
+			redirect($data);
+		}
+		$userdata = $this->session->userdata();
+		if ($userdata['role_id'] != 2) {
+			$data = base_url();
+			$this->session->unset_userdata('email', 'role_id');
+			$this->session->set_flashdata('message', '<div class = "alert alert-danger" role="alert">Login terlebih dahulu!</div>');
+			redirect($data);
+		}
 		$this->load->model('Atlet_model');
 		$this->load->model('DayaTahan_model', 'dayatahan');
 		$this->load->model('Kekuatan_model', 'kekuatan');
@@ -20,7 +34,7 @@ class Tes extends CI_Controller
 	{
 		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 		$data['title'] = 'Tes Fisik';
-		$data['atlet'] = $this->Atlet_model->getAllAtlet();
+		$data['atlet'] = $this->Atlet_model->getAllAtlet($data['user']['id']);
 		if($this->input->post('keyword')){
 			$data['atlet'] = $this->Atlet_model->cariDataAtlet();
 		}

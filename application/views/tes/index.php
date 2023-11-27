@@ -38,7 +38,7 @@
 						Data atlet tidak ditemukan
 					</div>
 				<?php endif; ?>
-				<?=$this->session->flashdata('message') ?>
+				<?php echo $this->session->flashdata('message') ?>
 				<div class="card p-3">
 					<div class="card-body">
 						<h3 class="card-title">Daftar Atlet</h3>

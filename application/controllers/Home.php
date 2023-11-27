@@ -9,14 +9,14 @@ class Home extends CI_Controller{
 		if (!$this->session->userdata('email', 'role_id')) {
 			$data = base_url();
 			$this->session->unset_userdata('email', 'role_id');
-			$this-> session ->set_flashdata('message', '<div class = "alert alert-danger" role="alert">Login terlebih dahulu!</div>');
+			$this->session->set_flashdata('message', '<div class = "alert alert-danger" role="alert">Login terlebih dahulu!</div>');
 			redirect($data);
 		}
 		$userdata = $this->session->userdata();
 		if ($userdata['role_id'] != 2) {
 			$data = base_url();
 			$this->session->unset_userdata('email', 'role_id');
-			$this-> session ->set_flashdata('message', '<div class = "alert alert-danger" role="alert">Login terlebih dahulu!</div>');
+			$this->session->set_flashdata('message', '<div class = "alert alert-danger" role="alert">Login terlebih dahulu!</div>');
 			redirect($data);
 		}
 
@@ -29,8 +29,8 @@ class Home extends CI_Controller{
 		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
 		$data['title'] = 'Home';
-		$data['atlet'] = $this->atlet->getAllAtlet();
-		$data['cabor'] = $this->db->get('cabor')->result_array();
+		$data['atlet'] = $this->atlet->getAllAtlet($data['user']['id']);
+		$data['cabor'] = $this->db->get_where('cabor', ['id_user' => $data['user']['id']])->result_array();
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/sidebar', $data);
 		$this->load->view('home/index', $data);
